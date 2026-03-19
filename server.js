@@ -5,9 +5,21 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import Anthropic from '@anthropic-ai/sdk';
+import axios from 'axios';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
+
+// Middleware
+app.use(express.json());
+
+// Xendit configuration
+const XENDIT_API_KEY = process.env.XENDIT_API_KEY;
+const REVIEW_PRICE = 20000; // Rp 20.000
+
+// In-memory payment tracking (for production, use database)
+const payments = new Map();
+const pendingReviews = new Map();
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, 'uploads');
@@ -43,6 +55,92 @@ const upload = multer({
 
 // Static files
 app.use(express.static(__dirname));
+
+// POST /api/create-invoice - Create Xendit invoice for CV review
+app.post('/api/create-invoice', async (req, res) => {
+  try {
+    if (!XENDIT_API_KEY) {
+      return res.status(500).json({ error: 'Payment service not configured' });
+    }
+
+    const invoiceId = `cv-review-${Date.now()}-${Math.random().toString(36).substring(7)}`;
+    const successRedirectUrl = `${req.protocol}://${req.get('host')}/?paid=${invoiceId}`;
+    const failureRedirectUrl = `${req.protocol}://${req.get('host')}/?paid=failed`;
+
+    const invoiceData = {
+      external_id: invoiceId,
+      amount: REVIEW_PRICE,
+      description: 'CV Review - Xendit',
+      invoice_duration: 3600, // 1 hour expiry
+      success_redirect_url: successRedirectUrl,
+      failure_redirect_url: failureRedirectUrl,
+      currency: 'IDR'
+    };
+
+    const response = await axios.post('https://api.xendit.co/v2/invoices', invoiceData, {
+      auth: {
+        username: XENDIT_API_KEY,
+        password: ''
+      }
+    });
+
+    // Store invoice info
+    payments.set(invoiceId, {
+      status: 'pending',
+      amount: REVIEW_PRICE,
+      createdAt: new Date(),
+      invoiceUrl: response.data.invoice_url
+    });
+
+    return res.json({
+      success: true,
+      invoiceId,
+      invoiceUrl: response.data.invoice_url,
+      amount: REVIEW_PRICE
+    });
+  } catch (error) {
+    console.error('Error creating invoice:', error.response?.data || error.message);
+    return res.status(500).json({ error: 'Failed to create invoice. Please try again.' });
+  }
+});
+
+// POST /api/webhook/xendit - Handle Xendit payment callback
+app.post('/api/webhook/xendit', (req, res) => {
+  try {
+    const { external_id, status } = req.body;
+
+    if (status === 'PAID') {
+      if (payments.has(external_id)) {
+        payments.set(external_id, {
+          ...payments.get(external_id),
+          status: 'paid',
+          paidAt: new Date()
+        });
+      }
+    }
+
+    return res.json({ status: 'ok' });
+  } catch (error) {
+    console.error('Error handling webhook:', error);
+    return res.status(500).json({ error: 'Webhook error' });
+  }
+});
+
+// GET /api/payment-status - Check if invoice is paid
+app.get('/api/payment-status/:invoiceId', (req, res) => {
+  const { invoiceId } = req.params;
+  const payment = payments.get(invoiceId);
+
+  if (!payment) {
+    return res.status(404).json({ error: 'Invoice not found' });
+  }
+
+  return res.json({
+    invoiceId,
+    status: payment.status,
+    isPaid: payment.status === 'paid'
+  });
+});
 
 // Build prompt for Claude
 function buildPrompt(cvText) {
@@ -130,14 +228,25 @@ async function analyzeCV(cvText) {
   return analysis;
 }
 
-// POST /api/review endpoint
+// POST /api/review endpoint - Analyze CV after payment
 app.post('/api/review', upload.single('cv'), async (req, res) => {
   const filePath = req.file?.path;
+  const { invoiceId } = req.body;
 
   try {
     // Validate file was attached
     if (!req.file) {
       return res.status(400).json({ error: 'No file uploaded' });
+    }
+
+    // Check if payment is required and verified
+    if (invoiceId && payments.has(invoiceId)) {
+      const payment = payments.get(invoiceId);
+      if (payment.status !== 'paid') {
+        return res.status(402).json({ error: 'Payment not completed. Please complete payment first.' });
+      }
+      // Mark invoice as used
+      payment.analyzed = true;
     }
 
     // Read and parse PDF

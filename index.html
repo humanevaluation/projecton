@@ -457,6 +457,53 @@
     body.dark-mode .btn-secondary:hover {
       background: #3a3a4e;
     }
+
+    /* Payment Section */
+    .price-badge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin: 20px 0;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .payment-button {
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      border: none;
+      padding: 14px 32px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .payment-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .payment-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .payment-info {
+      background: var(--bg-secondary);
+      padding: 15px;
+      border-radius: 8px;
+      margin: 20px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -478,7 +525,11 @@
       </div>
       <input type="file" id="fileInput" class="file-input" accept=".pdf,application/pdf">
       <div class="file-info" id="fileInfo"></div>
-      <button class="analyze-btn" id="analyzeBtn" disabled>Analyse CV</button>
+
+      <div class="price-badge">💰 Rp 20.000</div>
+      <div class="payment-info">Pay once to get a detailed AI-powered CV review with actionable insights</div>
+
+      <button class="payment-button" id="paymentBtn" disabled>Pay & Review</button>
     </div>
 
     <!-- Loading Section -->
@@ -556,7 +607,7 @@
     const uploadZone = document.getElementById('uploadZone');
     const fileInput = document.getElementById('fileInput');
     const fileInfo = document.getElementById('fileInfo');
-    const analyzeBtn = document.getElementById('analyzeBtn');
+    const paymentBtn = document.getElementById('paymentBtn');
     const uploadSection = document.getElementById('uploadSection');
     const loadingSection = document.getElementById('loadingSection');
     const resultsSection = document.getElementById('resultsSection');
@@ -567,6 +618,17 @@
     const retryBtn = document.getElementById('retryBtn');
 
     let selectedFile = null;
+    let currentInvoiceId = null;
+
+    // Check if returning from payment
+    const urlParams = new URLSearchParams(window.location.search);
+    const paidInvoiceId = urlParams.get('paid');
+    if (paidInvoiceId && paidInvoiceId !== 'failed') {
+      currentInvoiceId = paidInvoiceId;
+      console.log('Payment confirmed for invoice:', currentInvoiceId);
+      // Clean URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
 
     // Drag and drop
     uploadZone.addEventListener('dragover', (e) => {
@@ -610,14 +672,52 @@
 
       selectedFile = file;
       fileInfo.textContent = `Selected: ${file.name}`;
-      analyzeBtn.disabled = false;
+      paymentBtn.disabled = false;
     }
 
-    analyzeBtn.addEventListener('click', async () => {
+    paymentBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+
+      paymentBtn.disabled = true;
+      paymentBtn.textContent = 'Creating payment...';
+
+      try {
+        const response = await fetch('/api/create-invoice', {
+          method: 'POST'
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          showError(data.error || 'Failed to create payment invoice.');
+          paymentBtn.disabled = false;
+          paymentBtn.textContent = 'Pay & Review';
+          return;
+        }
+
+        // Store invoice ID and redirect to Xendit
+        currentInvoiceId = data.invoiceId;
+        window.location.href = data.invoiceUrl;
+      } catch (error) {
+        showError('Network error. Please check your connection and try again.');
+        paymentBtn.disabled = false;
+        paymentBtn.textContent = 'Pay & Review';
+      }
+    });
+
+    // Auto-analyze if returning from successful payment
+    if (currentInvoiceId) {
+      paymentBtn.textContent = '✓ Paid - Analysing...';
+      paymentBtn.disabled = true;
+      analyzeCV(currentInvoiceId);
+    }
+
+    async function analyzeCV(invoiceId) {
       if (!selectedFile) return;
 
       const formData = new FormData();
       formData.append('cv', selectedFile);
+      formData.append('invoiceId', invoiceId);
 
       showSection('loadingSection');
 
@@ -641,7 +741,7 @@
       } finally {
         hideLoading();
       }
-    });
+    }
 
     function renderResults(analysis) {
       // Animate score
@@ -706,8 +806,10 @@
 
     uploadAgainBtn.addEventListener('click', () => {
       selectedFile = null;
+      currentInvoiceId = null;
       fileInfo.textContent = '';
-      analyzeBtn.disabled = true;
+      paymentBtn.disabled = true;
+      paymentBtn.textContent = 'Pay & Review';
       fileInput.value = '';
       showSection('uploadSection');
     });
