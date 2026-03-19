@@ -45,9 +45,11 @@ app.use(express.static(__dirname));
 
 // Temporary debug route
 app.get('/api/debug-env', (req, res) => {
+  const allKeys = Object.keys(process.env);
   res.json({
-    xendit: process.env.XENDIT_API_KEY ? 'SET (' + process.env.XENDIT_API_KEY.substring(0, 10) + '...)' : 'NOT SET',
-    anthropic: process.env.ANTHROPIC_API_KEY ? 'SET' : 'NOT SET'
+    xendit: process.env.XENDIT_API_KEY ? 'SET (' + process.env.XENDIT_API_KEY.substring(0, 15) + '...)' : 'NOT SET',
+    anthropic: process.env.ANTHROPIC_API_KEY ? 'SET' : 'NOT SET',
+    allEnvKeys: allKeys.filter(k => !k.includes('npm') && !k.includes('NODE') && !k.includes('PATH'))
   });
 });
 
