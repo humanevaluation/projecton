@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV Reviewer — Halolearn</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #0ea5e9;
+      --purple: #a855f7;
+      --bg: #f1f5f9;
+      --card: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --radius: 16px;
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border: #334155;
+      --shadow: 0 4px 24px rgba(0,0,0,0.4);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--text);
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .navbar {
+      background: var(--card);
+      border-bottom: 1px solid var(--border);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 20px;
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+
+    .back-link {
+      font-size: 14px;
+      color: var(--text-muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .theme-btn {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 18px;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .theme-btn:hover { background: var(--border); }
+
+    .main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .hero {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 10px;
+    }
+
+    .hero p { color: var(--text-muted); font-size: 16px; }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      margin-bottom: 20px;
+    }
+
+    .section { display: none; }
+    .section.active { display: block; }
+
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    .upload-zone .icon { font-size: 48px; margin-bottom: 16px; }
+    .upload-zone h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+    .upload-zone p { color: var(--text-muted); font-size: 14px; }
+
+    input[type="file"] { display: none; }
+
+    .file-selected {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      background: rgba(99, 102, 241, 0.08);
+      border: 1px solid rgba(99, 102, 241, 0.3);
+      border-radius: 10px;
+      margin-top: 16px;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 24px 0;
+    }
+
+    .price-label { color: var(--text-muted); font-size: 15px; }
+
+    .price-amount { font-size: 24px; font-weight: 800; color: var(--text); }
+    .price-amount span { font-size: 14px; font-weight: 400; color: var(--text-muted); }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 28px;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
+    }
+
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover { background: var(--bg); }
+
+    .loading-wrap {
+      text-align: center;
+      padding: 60px 24px;
+    }
+
+    .spinner {
+      width: 52px;
+      height: 52px;
+      border: 4px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-wrap h3 { font-size: 18px; margin-bottom: 8px; }
+    .loading-wrap p { color: var(--text-muted); font-size: 15px; }
+
+    .score-section {
+      text-align: center;
+      padding: 40px 24px;
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      border-radius: var(--radius);
+      color: white;
+      margin-bottom: 24px;
+    }
+
+    .score-ring {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin: 0 auto 20px;
+    }
+
+    .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+    .score-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 52px;
+      font-weight: 800;
+    }
+
+    .score-section h2 { font-size: 20px; opacity: 0.9; margin-bottom: 6px; }
+    .score-badge {
+      display: inline-block;
+      padding: 4px 14px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      font-size: 14px;
+    }
+
+    .feedback-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) { .feedback-grid { grid-template-columns: 1fr; } }
+
+    .feedback-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .feedback-card-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .feedback-card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .feedback-card h3 { font-size: 15px; font-weight: 700; }
+    .feedback-card ul { list-style: none; }
+
+    .feedback-card li {
+      padding: 8px 0 8px 18px;
+      position: relative;
+      font-size: 14px;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      line-height: 1.5;
+    }
+
+    .feedback-card li:last-child { border-bottom: none; }
+
+    .feedback-card li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .card-strengths .feedback-card-icon { background: rgba(16,185,129,0.1); }
+    .card-strengths h3 { color: var(--success); }
+    .card-strengths li::before { background: var(--success); }
+
+    .card-weaknesses .feedback-card-icon { background: rgba(245,158,11,0.1); }
+    .card-weaknesses h3 { color: var(--warning); }
+    .card-weaknesses li::before { background: var(--warning); }
+
+    .card-tips .feedback-card-icon { background: rgba(14,165,233,0.1); }
+    .card-tips h3 { color: var(--info); }
+    .card-tips li::before { background: var(--info); }
+
+    .card-roles .feedback-card-icon { background: rgba(168,85,247,0.1); }
+    .card-roles h3 { color: var(--purple); }
+    .card-roles li::before { background: var(--purple); }
+
+    .wa-card {
+      background: linear-gradient(135deg, #0f9d58, #128c7e);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 16px;
+      color: white;
+    }
+
+    .wa-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .wa-icon { font-size: 36px; flex-shrink: 0; }
+    .wa-content h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .wa-content p { font-size: 14px; opacity: 0.9; line-height: 1.5; }
+
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: white;
+      color: #128c7e;
+      padding: 13px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      width: 100%;
+      transition: all 0.2s;
+    }
+
+    .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
+    .btn-wa svg { fill: #128c7e; }
+
+    .error-box {
+      background: rgba(239,68,68,0.08);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 12px;
+      padding: 20px;
+      color: var(--danger);
+      margin-bottom: 20px;
+    }
+
+    .error-box strong { display: block; margin-bottom: 4px; }
+    .error-box p { font-size: 14px; opacity: 0.85; }
+
+    .steps {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 28px;
+      justify-content: center;
+    }
+
+    .step {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+
+    .step-dot {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.3s;
+    }
+
+    .step.done .step-dot { background: var(--success); color: white; }
+    .step.active .step-dot { background: var(--primary); color: white; }
+
+    .step-line {
+      flex: 1;
+      height: 2px;
+      background: var(--border);
+      max-width: 40px;
+      transition: background 0.3s;
+    }
+
+    .step-line.done { background: var(--success); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">
+      <div class="logo-icon">📄</div>
+      Halolearn
+    </a>
+    <div class="nav-right">
+      <a href="/" class="back-link">← Kembali</a>
+      <button class="theme-btn" id="themeBtn">🌙</button>
+    </div>
+  </nav>
+
+  <main class="main">
+    <div class="hero">
+      <h1>AI-Powered CV Review</h1>
+      <p>Dapatkan feedback profesional untuk CV kamu dari Claude AI</p>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="section active" id="uploadSection">
+      <div class="steps">
+        <div class="step active" id="step1">
+          <div class="step-dot">1</div>
+          <span>Upload CV</span>
+        </div>
+        <div class="step-line" id="line1"></div>
+        <div class="step" id="step2">
+          <div class="step-dot">2</div>
+          <span>Pembayaran</span>
+        </div>
+        <div class="step-line" id="line2"></div>
+        <div class="step" id="step3">
+          <div class="step-dot">3</div>
+          <span>Hasil</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="upload-zone" id="uploadZone">
+          <div class="icon">☁️</div>
+          <h3>Upload CV kamu di sini</h3>
+          <p>atau klik untuk pilih file — PDF only, maks 10 MB</p>
+        </div>
+        <input type="file" id="fileInput" accept=".pdf,application/pdf">
+        <div id="fileInfo" style="display:none" class="file-selected">
+          <span>📎</span>
+          <span id="fileName"></span>
+        </div>
+
+        <div class="price-row">
+          <div>
+            <div class="price-label">Biaya review sekali bayar</div>
+            <div style="font-size:13px;color:var(--text-muted);margin-top:2px">Analisis AI lengkap · Tips actionable · Rekomendasi job role</div>
+          </div>
+          <div class="price-amount">Rp 20.000 <span>/review</span></div>
+        </div>
+
+        <button class="btn btn-primary" id="payBtn" disabled>
+          <span>💳</span> Bayar & Review CV
+        </button>
+      </div>
+    </div>
+
+    <!-- Processing Section -->
+    <div class="section" id="processingSection">
+      <div class="card">
+        <div class="loading-wrap">
+          <div class="spinner"></div>
+          <h3 id="processingTitle">Memproses...</h3>
+          <p id="processingMsg">Mohon tunggu sebentar</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Section -->
+    <div class="section" id="resultsSection">
+      <div class="score-section">
+        <div class="score-ring">
+          <svg viewBox="0 0 160 160">
+            <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="10"/>
+            <circle id="scoreCircle" cx="80" cy="80" r="68" fill="none" stroke="white"
+              stroke-width="10" stroke-linecap="round"
+              stroke-dasharray="427" stroke-dashoffset="427"
+              style="transition: stroke-dashoffset 1.2s ease"/>
+          </svg>
+          <div class="score-number"><span id="scoreValue">0</span></div>
+        </div>
+        <h2>Skor CV Kamu</h2>
+        <div class="score-badge" id="scoreBadge">Mengevaluasi...</div>
+      </div>
+
+      <div class="feedback-grid">
+        <div class="feedback-card card-strengths">
+          <div class="feedback-card-header">
+            <div class="feedback-card-icon">✅</div>
+            <h3>Kelebihan</h3>
+          </div>
+          <ul id="strengthsList"></ul>
+        </div>
+        <div class="feedback-card card-weaknesses">
+          <div class="feedback-card-header">
+            <div class="feedback-card-icon">⚠️</div>
+            <h3>Kekurangan</h3>
+          </div>
+          <ul id="weaknessesList"></ul>
+        </div>
+        <div class="feedback-card card-tips">
+          <div class="feedback-card-header">
+            <div class="feedback-card-icon">💡</div>
+            <h3>Tips Perbaikan</h3>
+          </div>
+          <ul id="tipsList"></ul>
+        </div>
+        <div class="feedback-card card-roles">
+          <div class="feedback-card-header">
+            <div class="feedback-card-icon">🎯</div>
+            <h3>Rekomendasi Job Role</h3>
+          </div>
+          <ul id="rolesList"></ul>
+        </div>
+      </div>
+
+      <!-- WhatsApp CTA -->
+      <div class="wa-card">
+        <div class="wa-content">
+          <div class="wa-icon">🚀</div>
+          <div>
+            <h3>Mau CV kamu dioptimasi oleh profesional?</h3>
+            <p>Tim Halolearn siap bantu kamu memperbaiki dan mengoptimasi CV agar lebih menarik di mata rekruter. Lebih dari 1.000+ kandidat sudah berhasil!</p>
+          </div>
+        </div>
+        <a href="https://wa.me/6285260421274?text=Halo%20Halolearn%2C%20saya%20ingin%20konsultasi%20optimasi%20CV%20saya" target="_blank" class="btn-wa">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Chat dengan Admin Halolearn
+        </a>
+      </div>
+
+      <button class="btn btn-outline" id="reviewAnotherBtn" style="margin-top:12px">📄 Review CV Lain</button>
+    </div>
+
+    <!-- Error Section -->
+    <div class="section" id="errorSection">
+      <div class="card">
+        <div class="error-box">
+          <strong>Terjadi kesalahan</strong>
+          <p id="errorMessage"></p>
+        </div>
+        <button class="btn btn-outline" id="retryBtn">← Coba Lagi</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const themeBtn = document.getElementById('themeBtn');
+    if (localStorage.getItem('theme') === 'dark') {
+      document.body.classList.add('dark');
+      themeBtn.textContent = '☀️';
+    }
+    themeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const dark = document.body.classList.contains('dark');
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+      themeBtn.textContent = dark ? '☀️' : '🌙';
+    });
+
+    const uploadZone = document.getElementById('uploadZone');
+    const fileInput = document.getElementById('fileInput');
+    const fileInfo = document.getElementById('fileInfo');
+    const fileName = document.getElementById('fileName');
+    const payBtn = document.getElementById('payBtn');
+    let selectedFile = null;
+
+    uploadZone.addEventListener('click', () => fileInput.click());
+    uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+    uploadZone.addEventListener('drop', e => {
+      e.preventDefault();
+      uploadZone.classList.remove('drag-over');
+      if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+    });
+    fileInput.addEventListener('change', e => {
+      if (e.target.files[0]) handleFile(e.target.files[0]);
+    });
+
+    function handleFile(file) {
+      if (file.type !== 'application/pdf') { showError('Hanya file PDF yang didukung.'); return; }
+      if (file.size > 10 * 1024 * 1024) { showError('File terlalu besar. Maks 10 MB.'); return; }
+      selectedFile = file;
+      fileName.textContent = file.name;
+      fileInfo.style.display = 'flex';
+      payBtn.disabled = false;
+    }
+
+    payBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+      setProcessing('Mengupload CV...', 'Menyiapkan pembayaran, mohon tunggu...');
+      showSection('processingSection');
+      setStep(2);
+
+      const formData = new FormData();
+      formData.append('cv', selectedFile);
+
+      try {
+        const res = await fetch('/api/prepare', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) { showError(data.error || 'Gagal menyiapkan pembayaran.'); return; }
+        window.location.href = data.invoiceUrl;
+      } catch {
+        showError('Koneksi bermasalah. Periksa internet kamu.');
+      }
+    });
+
+    const params = new URLSearchParams(window.location.search);
+    const paidId = params.get('paid');
+
+    if (paidId === 'failed') {
+      window.history.replaceState({}, '', window.location.pathname);
+      showError('Pembayaran dibatalkan atau gagal. Silakan coba lagi.');
+    } else if (paidId) {
+      window.history.replaceState({}, '', window.location.pathname);
+      setStep(3);
+      setProcessing('Menganalisis CV kamu...', 'Claude AI sedang mereview CV kamu, ini mungkin membutuhkan beberapa detik...');
+      showSection('processingSection');
+      runAnalysis(paidId);
+    }
+
+    async function runAnalysis(invoiceId) {
+      try {
+        const res = await fetch('/api/review', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ invoiceId })
+        });
+        const data = await res.json();
+        if (!res.ok) { showError(data.error || 'Analisis gagal. Silakan coba lagi.'); return; }
+        renderResults(data.analysis);
+        showSection('resultsSection');
+      } catch {
+        showError('Koneksi bermasalah. Periksa internet kamu.');
+      }
+    }
+
+    function renderResults(analysis) {
+      const score = analysis.score;
+      const circumference = 2 * Math.PI * 68;
+      document.getElementById('scoreCircle').style.strokeDashoffset = circumference - (score / 100) * circumference;
+
+      let n = 0;
+      const iv = setInterval(() => {
+        n = Math.min(n + 1, score);
+        document.getElementById('scoreValue').textContent = n;
+        if (n >= score) clearInterval(iv);
+      }, 12);
+
+      const badge = document.getElementById('scoreBadge');
+      if (score >= 80) badge.textContent = '🌟 Sangat Baik';
+      else if (score >= 60) badge.textContent = '👍 Baik';
+      else if (score >= 40) badge.textContent = '📝 Cukup';
+      else badge.textContent = '🔧 Perlu Perbaikan';
+
+      populateList('strengthsList', analysis.strengths);
+      populateList('weaknessesList', analysis.weaknesses);
+      populateList('tipsList', analysis.improvement_tips);
+      populateList('rolesList', analysis.job_roles);
+    }
+
+    function populateList(id, items) {
+      document.getElementById(id).innerHTML = items.map(i => `<li>${i}</li>`).join('');
+    }
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+
+    function setProcessing(title, msg) {
+      document.getElementById('processingTitle').textContent = title;
+      document.getElementById('processingMsg').textContent = msg;
+    }
+
+    function setStep(active) {
+      [1,2,3].forEach(i => {
+        const s = document.getElementById(`step${i}`);
+        s.classList.remove('active', 'done');
+        if (i < active) s.classList.add('done');
+        else if (i === active) s.classList.add('active');
+      });
+      [1,2].forEach(i => {
+        document.getElementById(`line${i}`).classList.toggle('done', i < active);
+      });
+    }
+
+    function showError(msg) {
+      document.getElementById('errorMessage').textContent = msg;
+      showSection('errorSection');
+    }
+
+    document.getElementById('retryBtn').addEventListener('click', () => {
+      selectedFile = null;
+      fileInfo.style.display = 'none';
+      fileInput.value = '';
+      payBtn.disabled = true;
+      setStep(1);
+      showSection('uploadSection');
+    });
+
+    document.getElementById('reviewAnotherBtn').addEventListener('click', () => {
+      selectedFile = null;
+      fileInfo.style.display = 'none';
+      fileInput.value = '';
+      payBtn.disabled = true;
+      setStep(1);
+      showSection('uploadSection');
+    });
+  </script>
+</body>
+</html>
