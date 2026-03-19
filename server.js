@@ -43,6 +43,14 @@ const upload = multer({
 
 app.use(express.static(__dirname));
 
+// Temporary debug route
+app.get('/api/debug-env', (req, res) => {
+  res.json({
+    xendit: process.env.XENDIT_API_KEY ? 'SET (' + process.env.XENDIT_API_KEY.substring(0, 10) + '...)' : 'NOT SET',
+    anthropic: process.env.ANTHROPIC_API_KEY ? 'SET' : 'NOT SET'
+  });
+});
+
 // POST /api/prepare - Upload CV + create invoice in one step
 app.post('/api/prepare', upload.single('cv'), async (req, res) => {
   const filePath = req.file?.path;
