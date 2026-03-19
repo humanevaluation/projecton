@@ -144,55 +144,54 @@ app.post('/api/review', async (req, res) => {
     const cvText = pdfData.text;
 
     if (!cvText || cvText.trim().length < 50) {
-      return res.status(422).json({ error: 'CV appears to be empty or unreadable.' });
+      return res.status(422).json({ error: 'CV tidak bisa dibaca. Pastikan PDF mengandung teks dan coba lagi.' });
     }
 
     const analysis = await analyzeCV(cvText);
 
-    // Clean up file after analysis
     fs.unlinkSync(filePath);
     sessions.delete(invoiceId);
 
     return res.json({ success: true, analysis });
   } catch (error) {
-    console.error('Error analyzing CV:', error);
+    console.error('Error analyzing CV:', error.message || error);
 
-    if (error.status === 401 || error.message?.includes('API key')) {
-      return res.status(500).json({ error: 'Server authentication error. Please contact support.' });
+    if (error.status === 401 || error.message?.includes('API key') || error.message?.includes('authentication')) {
+      return res.status(500).json({ error: 'API key tidak valid. Hubungi admin.' });
     }
     if (error.status === 429) {
-      return res.status(500).json({ error: 'Service temporarily unavailable. Please try again.' });
+      return res.status(500).json({ error: 'Server sedang sibuk. Coba lagi dalam beberapa detik.' });
+    }
+    if (error.message?.includes('JSON') || error.message?.includes('parse')) {
+      return res.status(500).json({ error: 'Gagal memproses hasil analisis. Coba lagi.' });
     }
 
-    return res.status(500).json({ error: 'An error occurred while analyzing your CV.' });
+    return res.status(500).json({ error: error.message || 'Terjadi kesalahan saat menganalisis CV.' });
   }
 });
 
 function buildPrompt(cvText) {
-  return `You are an expert CV/Resume reviewer. Analyze the following CV and provide constructive feedback in valid JSON format.
+  return `Kamu adalah reviewer CV profesional. Analisis CV berikut dan kembalikan hasil dalam format JSON yang valid. Semua teks feedback harus dalam Bahasa Indonesia.
 
-Return ONLY a valid JSON object with these exact fields (no markdown, no code fences):
-{
-  "score": <integer 0-100>,
-  "strengths": [<array of 3-5 specific strengths>],
-  "weaknesses": [<array of 3-5 specific weaknesses>],
-  "improvement_tips": [<array of 3-5 actionable, specific improvement tips>],
-  "job_roles": [<array of at least 3 suggested job roles>]
-}
+PENTING: Kembalikan HANYA objek JSON murni, tanpa markdown, tanpa kode fences, tanpa teks lain apapun di luar JSON.
 
-Scoring rubric:
-- 80-100: Excellent CV with strong experience, clear achievements, and tailored presentation
-- 60-79: Good CV with solid experience but needs improvements in clarity or presentation
-- 40-59: Fair CV with potential but significant gaps in experience, clarity, or structure
-- 0-39: Needs major work - missing key information, poor organization, or unclear writing
+Format JSON yang harus dikembalikan:
+{"score":75,"strengths":["contoh kelebihan spesifik"],"weaknesses":["contoh kekurangan spesifik"],"improvement_tips":["contoh tips perbaikan"],"job_roles":["contoh posisi kerja"]}
 
-Rules:
-- Strengths must be specific, concrete observations about the CV
-- Weaknesses must be specific areas for improvement
-- Tips must be actionable and specific (not generic)
-- Include at least 3 realistic job roles based on the CV content
+Aturan scoring:
+- 80-100: CV sangat baik, pengalaman kuat, pencapaian jelas
+- 60-79: CV bagus, perlu sedikit perbaikan
+- 40-59: CV cukup, perlu perbaikan signifikan
+- 0-39: CV perlu banyak perbaikan mendasar
 
-CV to review:
+Aturan penulisan feedback (WAJIB diikuti):
+- Jika CV memiliki angka/data, sertakan angkanya. Contoh: "Meningkatkan engagement 30% dalam 3 bulan" bukan "Meningkatkan engagement"
+- Jika tidak ada angka, sarankan untuk ditambahkan. Contoh: "Tambahkan angka pencapaian, misal: berhasil handle 50+ klien"
+- Setiap poin harus spesifik merujuk pada isi CV, bukan generik
+- Berikan minimal 3 dan maksimal 5 poin per kategori
+- Job roles minimal 3 posisi yang sesuai dengan pengalaman di CV
+
+CV untuk direview:
 ---
 ${cvText}
 ---`;

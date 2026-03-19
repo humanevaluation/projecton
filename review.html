@@ -20,7 +20,7 @@
       --text: #0f172a;
       --text-muted: #64748b;
       --border: #e2e8f0;
-      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow: 0 4px 24px rgba(0,0,0,0.07);
       --radius: 16px;
     }
 
@@ -41,373 +41,98 @@
       transition: background 0.3s, color 0.3s;
     }
 
+    /* Navbar */
     .navbar {
       background: var(--card);
       border-bottom: 1px solid var(--border);
-      padding: 16px 24px;
+      padding: 14px 24px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       position: sticky;
       top: 0;
-      z-index: 10;
+      z-index: 100;
     }
 
     .logo {
       display: flex;
       align-items: center;
       gap: 10px;
-      font-weight: 700;
-      font-size: 20px;
+      font-weight: 800;
+      font-size: 18px;
       color: var(--primary);
       text-decoration: none;
     }
 
     .logo-icon {
-      width: 36px;
-      height: 36px;
+      width: 34px;
+      height: 34px;
       background: linear-gradient(135deg, var(--primary), var(--purple));
-      border-radius: 10px;
+      border-radius: 9px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
+      font-size: 16px;
     }
 
-    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
 
     .back-link {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--text-muted);
       text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 4px;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: all 0.2s;
     }
 
-    .back-link:hover { color: var(--text); }
+    .back-link:hover { background: var(--bg); color: var(--text); }
 
     .theme-btn {
       background: var(--bg);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px 12px;
+      border-radius: 8px;
+      padding: 7px 11px;
       cursor: pointer;
-      font-size: 18px;
+      font-size: 16px;
       color: var(--text);
-      transition: all 0.2s;
     }
 
-    .theme-btn:hover { background: var(--border); }
-
+    /* Layout */
     .main {
-      max-width: 760px;
+      max-width: 740px;
       margin: 0 auto;
-      padding: 40px 20px;
+      padding: 36px 20px 60px;
     }
 
-    .hero {
+    .page-title {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 32px;
     }
 
-    .hero h1 {
-      font-size: 32px;
+    .page-title h1 {
+      font-size: 28px;
       font-weight: 800;
       background: linear-gradient(135deg, var(--primary), var(--purple));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 10px;
+      margin-bottom: 6px;
     }
 
-    .hero p { color: var(--text-muted); font-size: 16px; }
+    .page-title p { color: var(--text-muted); font-size: 15px; }
 
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 32px;
-      box-shadow: var(--shadow);
-      margin-bottom: 20px;
-    }
-
+    /* Section */
     .section { display: none; }
     .section.active { display: block; }
 
-    .upload-zone {
-      border: 2px dashed var(--border);
-      border-radius: 12px;
-      padding: 48px 24px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      background: var(--bg);
-    }
-
-    .upload-zone:hover, .upload-zone.drag-over {
-      border-color: var(--primary);
-      background: rgba(99, 102, 241, 0.05);
-    }
-
-    .upload-zone .icon { font-size: 48px; margin-bottom: 16px; }
-    .upload-zone h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
-    .upload-zone p { color: var(--text-muted); font-size: 14px; }
-
-    input[type="file"] { display: none; }
-
-    .file-selected {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 14px 16px;
-      background: rgba(99, 102, 241, 0.08);
-      border: 1px solid rgba(99, 102, 241, 0.3);
-      border-radius: 10px;
-      margin-top: 16px;
-      color: var(--primary);
-      font-weight: 500;
-    }
-
-    .price-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin: 24px 0;
-    }
-
-    .price-label { color: var(--text-muted); font-size: 15px; }
-
-    .price-amount { font-size: 24px; font-weight: 800; color: var(--text); }
-    .price-amount span { font-size: 14px; font-weight: 400; color: var(--text-muted); }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 14px 28px;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: all 0.2s;
-      width: 100%;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-      color: white;
-      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(99, 102, 241, 0.4);
-    }
-
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-    .btn-outline {
-      background: transparent;
-      border: 2px solid var(--border);
-      color: var(--text);
-    }
-
-    .btn-outline:hover { background: var(--bg); }
-
-    .loading-wrap {
-      text-align: center;
-      padding: 60px 24px;
-    }
-
-    .spinner {
-      width: 52px;
-      height: 52px;
-      border: 4px solid var(--border);
-      border-top-color: var(--primary);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 20px;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .loading-wrap h3 { font-size: 18px; margin-bottom: 8px; }
-    .loading-wrap p { color: var(--text-muted); font-size: 15px; }
-
-    .score-section {
-      text-align: center;
-      padding: 40px 24px;
-      background: linear-gradient(135deg, var(--primary), var(--purple));
-      border-radius: var(--radius);
-      color: white;
-      margin-bottom: 24px;
-    }
-
-    .score-ring {
-      position: relative;
-      width: 160px;
-      height: 160px;
-      margin: 0 auto 20px;
-    }
-
-    .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-
-    .score-number {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 52px;
-      font-weight: 800;
-    }
-
-    .score-section h2 { font-size: 20px; opacity: 0.9; margin-bottom: 6px; }
-    .score-badge {
-      display: inline-block;
-      padding: 4px 14px;
-      background: rgba(255,255,255,0.2);
-      border-radius: 20px;
-      font-size: 14px;
-    }
-
-    .feedback-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-bottom: 24px;
-    }
-
-    @media (max-width: 600px) { .feedback-grid { grid-template-columns: 1fr; } }
-
-    .feedback-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .feedback-card-header {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-
-    .feedback-card-icon {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-    }
-
-    .feedback-card h3 { font-size: 15px; font-weight: 700; }
-    .feedback-card ul { list-style: none; }
-
-    .feedback-card li {
-      padding: 8px 0 8px 18px;
-      position: relative;
-      font-size: 14px;
-      color: var(--text-muted);
-      border-bottom: 1px solid var(--border);
-      line-height: 1.5;
-    }
-
-    .feedback-card li:last-child { border-bottom: none; }
-
-    .feedback-card li::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-
-    .card-strengths .feedback-card-icon { background: rgba(16,185,129,0.1); }
-    .card-strengths h3 { color: var(--success); }
-    .card-strengths li::before { background: var(--success); }
-
-    .card-weaknesses .feedback-card-icon { background: rgba(245,158,11,0.1); }
-    .card-weaknesses h3 { color: var(--warning); }
-    .card-weaknesses li::before { background: var(--warning); }
-
-    .card-tips .feedback-card-icon { background: rgba(14,165,233,0.1); }
-    .card-tips h3 { color: var(--info); }
-    .card-tips li::before { background: var(--info); }
-
-    .card-roles .feedback-card-icon { background: rgba(168,85,247,0.1); }
-    .card-roles h3 { color: var(--purple); }
-    .card-roles li::before { background: var(--purple); }
-
-    .wa-card {
-      background: linear-gradient(135deg, #0f9d58, #128c7e);
-      border-radius: var(--radius);
-      padding: 24px;
-      margin-bottom: 16px;
-      color: white;
-    }
-
-    .wa-content {
-      display: flex;
-      align-items: flex-start;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
-
-    .wa-icon { font-size: 36px; flex-shrink: 0; }
-    .wa-content h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
-    .wa-content p { font-size: 14px; opacity: 0.9; line-height: 1.5; }
-
-    .btn-wa {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: white;
-      color: #128c7e;
-      padding: 13px 24px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 700;
-      text-decoration: none;
-      width: 100%;
-      transition: all 0.2s;
-    }
-
-    .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.2); }
-    .btn-wa svg { fill: #128c7e; }
-
-    .error-box {
-      background: rgba(239,68,68,0.08);
-      border: 1px solid rgba(239,68,68,0.3);
-      border-radius: 12px;
-      padding: 20px;
-      color: var(--danger);
-      margin-bottom: 20px;
-    }
-
-    .error-box strong { display: block; margin-bottom: 4px; }
-    .error-box p { font-size: 14px; opacity: 0.85; }
-
+    /* Steps */
     .steps {
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       margin-bottom: 28px;
-      justify-content: center;
     }
 
     .step {
@@ -419,30 +144,442 @@
     }
 
     .step-dot {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
       border-radius: 50%;
       background: var(--border);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 12px;
-      font-weight: 600;
+      font-size: 11px;
+      font-weight: 700;
       transition: all 0.3s;
     }
 
-    .step.done .step-dot { background: var(--success); color: white; }
     .step.active .step-dot { background: var(--primary); color: white; }
+    .step.done .step-dot { background: var(--success); color: white; }
 
     .step-line {
-      flex: 1;
+      width: 36px;
       height: 2px;
       background: var(--border);
-      max-width: 40px;
       transition: background 0.3s;
     }
 
     .step-line.done { background: var(--success); }
+
+    /* Card */
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+    }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 44px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--bg);
+    }
+
+    .upload-zone:hover, .upload-zone.drag-over {
+      border-color: var(--primary);
+      background: rgba(99,102,241,0.04);
+    }
+
+    .upload-zone .icon { font-size: 44px; margin-bottom: 14px; }
+    .upload-zone h3 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+    .upload-zone p { color: var(--text-muted); font-size: 13px; }
+
+    input[type="file"] { display: none; }
+
+    .file-selected {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: rgba(99,102,241,0.07);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 10px;
+      margin-top: 14px;
+      color: var(--primary);
+      font-weight: 500;
+      font-size: 14px;
+    }
+
+    /* Price */
+    .price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin: 20px 0;
+    }
+
+    .price-label { color: var(--text-muted); font-size: 14px; }
+    .price-sub { font-size: 12px; color: var(--text-muted); margin-top: 3px; }
+    .price-amount { font-size: 22px; font-weight: 800; }
+    .price-amount span { font-size: 13px; font-weight: 400; color: var(--text-muted); }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+      width: 100%;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+      box-shadow: 0 4px 14px rgba(99,102,241,0.3);
+    }
+
+    .btn-primary:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(99,102,241,0.4); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-outline:hover { background: var(--bg); }
+
+    /* Loading */
+    .loading-wrap {
+      text-align: center;
+      padding: 56px 24px;
+    }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 18px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-wrap h3 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .loading-wrap p { color: var(--text-muted); font-size: 14px; }
+
+    /* Score Section */
+    .score-top {
+      background: linear-gradient(135deg, var(--primary), var(--purple));
+      border-radius: var(--radius);
+      padding: 36px 24px 28px;
+      color: white;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+
+    .score-ring {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 16px;
+    }
+
+    .score-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+
+    .score-number {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 900;
+    }
+
+    .score-top h2 { font-size: 16px; opacity: 0.85; margin-bottom: 8px; }
+
+    .score-badge {
+      display: inline-block;
+      padding: 5px 16px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    /* Score Range Accordion */
+    .score-range-toggle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      padding: 8px 18px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin: 0 auto;
+    }
+
+    .score-range-toggle:hover { background: rgba(255,255,255,0.25); }
+
+    .score-range-toggle .arrow {
+      transition: transform 0.3s;
+      font-size: 10px;
+    }
+
+    .score-range-toggle.open .arrow { transform: rotate(180deg); }
+
+    .score-range-panel {
+      display: none;
+      margin-top: 16px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .score-range-panel.open { display: block; }
+
+    .score-range-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 16px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+      font-size: 13px;
+    }
+
+    .score-range-row:last-child { border-bottom: none; }
+
+    .score-range-row.highlight {
+      background: rgba(255,255,255,0.15);
+      font-weight: 700;
+    }
+
+    .score-range-bar {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .range-num { opacity: 0.8; min-width: 52px; font-size: 12px; }
+    .range-label { flex: 1; }
+    .range-desc { opacity: 0.7; font-size: 11px; text-align: right; }
+
+    /* Tabs */
+    .tabs-wrap { margin-bottom: 16px; }
+
+    .tabs-header {
+      display: flex;
+      gap: 6px;
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 5px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+    }
+
+    .tab-btn {
+      flex: 1;
+      min-width: 120px;
+      padding: 9px 12px;
+      border: none;
+      background: transparent;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover { background: var(--card); color: var(--text); }
+
+    .tab-btn.active {
+      background: var(--card);
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+
+    .tab-btn.active.tab-strengths { color: var(--success); }
+    .tab-btn.active.tab-weaknesses { color: var(--warning); }
+    .tab-btn.active.tab-tips { color: var(--info); }
+    .tab-btn.active.tab-roles { color: var(--purple); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Feedback list */
+    .feedback-list { list-style: none; }
+
+    .feedback-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .feedback-item:last-child { border-bottom: none; }
+    .feedback-item:hover { padding-left: 4px; }
+
+    .feedback-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 6px;
+    }
+
+    .feedback-item-text {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-muted);
+      flex: 1;
+    }
+
+    .feedback-item-text strong {
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* Number highlight */
+    .num-badge {
+      display: inline-block;
+      background: rgba(99,102,241,0.1);
+      color: var(--primary);
+      padding: 1px 6px;
+      border-radius: 4px;
+      font-weight: 700;
+      font-size: 13px;
+    }
+
+    .tab-panel-strengths .feedback-dot { background: var(--success); }
+    .tab-panel-weaknesses .feedback-dot { background: var(--warning); }
+    .tab-panel-tips .feedback-dot { background: var(--info); }
+    .tab-panel-roles .feedback-dot { background: var(--purple); }
+
+    /* Role chips */
+    .roles-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 8px 0;
+    }
+
+    .role-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      background: rgba(168,85,247,0.08);
+      border: 1px solid rgba(168,85,247,0.2);
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--purple);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .role-chip:hover {
+      background: rgba(168,85,247,0.15);
+      transform: translateY(-1px);
+    }
+
+    /* WA Card */
+    .wa-card {
+      background: linear-gradient(135deg, #0a7a45, #128c7e);
+      border-radius: var(--radius);
+      padding: 24px;
+      margin-bottom: 14px;
+      color: white;
+    }
+
+    .wa-content {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .wa-icon { font-size: 32px; flex-shrink: 0; }
+    .wa-content h3 { font-size: 16px; font-weight: 700; margin-bottom: 5px; }
+    .wa-content p { font-size: 13px; opacity: 0.9; line-height: 1.5; }
+
+    .btn-wa {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: white;
+      color: #0a7a45;
+      padding: 13px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .btn-wa:hover { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,0.15); }
+    .btn-wa svg { fill: #0a7a45; }
+
+    /* Error */
+    .error-box {
+      background: rgba(239,68,68,0.07);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: 12px;
+      padding: 18px;
+      color: var(--danger);
+      margin-bottom: 16px;
+    }
+
+    .error-box strong { display: block; margin-bottom: 4px; font-size: 15px; }
+    .error-box p { font-size: 13px; opacity: 0.85; }
+
+    /* Powered by */
+    .powered-by {
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 24px;
+      opacity: 0.6;
+    }
   </style>
 </head>
 <body>
@@ -452,63 +589,53 @@
       Halolearn
     </a>
     <div class="nav-right">
-      <a href="/" class="back-link">← Kembali</a>
+      <a href="/" class="back-link">← Beranda</a>
       <button class="theme-btn" id="themeBtn">🌙</button>
     </div>
   </nav>
 
   <main class="main">
-    <div class="hero">
-      <h1>AI-Powered CV Review</h1>
-      <p>Dapatkan feedback profesional untuk CV kamu dari Claude AI</p>
+    <div class="page-title">
+      <h1>Review CV Kamu</h1>
+      <p>Analisis mendalam oleh Halolearn AI dalam hitungan detik</p>
     </div>
 
     <!-- Upload Section -->
     <div class="section active" id="uploadSection">
       <div class="steps">
-        <div class="step active" id="step1">
-          <div class="step-dot">1</div>
-          <span>Upload CV</span>
-        </div>
+        <div class="step active" id="step1"><div class="step-dot">1</div><span>Upload</span></div>
         <div class="step-line" id="line1"></div>
-        <div class="step" id="step2">
-          <div class="step-dot">2</div>
-          <span>Pembayaran</span>
-        </div>
+        <div class="step" id="step2"><div class="step-dot">2</div><span>Bayar</span></div>
         <div class="step-line" id="line2"></div>
-        <div class="step" id="step3">
-          <div class="step-dot">3</div>
-          <span>Hasil</span>
-        </div>
+        <div class="step" id="step3"><div class="step-dot">3</div><span>Hasil</span></div>
       </div>
 
       <div class="card">
         <div class="upload-zone" id="uploadZone">
           <div class="icon">☁️</div>
           <h3>Upload CV kamu di sini</h3>
-          <p>atau klik untuk pilih file — PDF only, maks 10 MB</p>
+          <p>Klik atau drag & drop — PDF only, maks 10 MB</p>
         </div>
         <input type="file" id="fileInput" accept=".pdf,application/pdf">
         <div id="fileInfo" style="display:none" class="file-selected">
-          <span>📎</span>
-          <span id="fileName"></span>
+          <span>📎</span><span id="fileName"></span>
         </div>
 
         <div class="price-row">
           <div>
             <div class="price-label">Biaya review sekali bayar</div>
-            <div style="font-size:13px;color:var(--text-muted);margin-top:2px">Analisis AI lengkap · Tips actionable · Rekomendasi job role</div>
+            <div class="price-sub">Analisis AI lengkap · Tips actionable · Rekomendasi job role</div>
           </div>
           <div class="price-amount">Rp 20.000 <span>/review</span></div>
         </div>
 
         <button class="btn btn-primary" id="payBtn" disabled>
-          <span>💳</span> Bayar & Review CV
+          💳 Bayar & Review CV
         </button>
       </div>
     </div>
 
-    <!-- Processing Section -->
+    <!-- Processing -->
     <div class="section" id="processingSection">
       <div class="card">
         <div class="loading-wrap">
@@ -519,73 +646,99 @@
       </div>
     </div>
 
-    <!-- Results Section -->
+    <!-- Results -->
     <div class="section" id="resultsSection">
-      <div class="score-section">
+
+      <!-- Score Card -->
+      <div class="score-top">
         <div class="score-ring">
-          <svg viewBox="0 0 160 160">
-            <circle cx="80" cy="80" r="68" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="10"/>
-            <circle id="scoreCircle" cx="80" cy="80" r="68" fill="none" stroke="white"
+          <svg viewBox="0 0 150 150">
+            <circle cx="75" cy="75" r="62" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="10"/>
+            <circle id="scoreCircle" cx="75" cy="75" r="62" fill="none" stroke="white"
               stroke-width="10" stroke-linecap="round"
-              stroke-dasharray="427" stroke-dashoffset="427"
+              stroke-dasharray="390" stroke-dashoffset="390"
               style="transition: stroke-dashoffset 1.2s ease"/>
           </svg>
           <div class="score-number"><span id="scoreValue">0</span></div>
         </div>
         <h2>Skor CV Kamu</h2>
         <div class="score-badge" id="scoreBadge">Mengevaluasi...</div>
+
+        <button class="score-range-toggle" id="rangeToggle">
+          Lihat panduan skor <span class="arrow">▼</span>
+        </button>
+
+        <div class="score-range-panel" id="rangePanel">
+          <div class="score-range-row" id="range-80">
+            <div class="score-range-bar" style="background:#10b981"></div>
+            <span class="range-num">80 – 100</span>
+            <span class="range-label">🌟 Sangat Baik</span>
+            <span class="range-desc">Siap melamar!</span>
+          </div>
+          <div class="score-range-row" id="range-60">
+            <div class="score-range-bar" style="background:#22c55e"></div>
+            <span class="range-num">60 – 79</span>
+            <span class="range-label">👍 Baik</span>
+            <span class="range-desc">Minor improvement</span>
+          </div>
+          <div class="score-range-row" id="range-40">
+            <div class="score-range-bar" style="background:#f59e0b"></div>
+            <span class="range-num">40 – 59</span>
+            <span class="range-label">📝 Cukup</span>
+            <span class="range-desc">Perlu perbaikan</span>
+          </div>
+          <div class="score-range-row" id="range-0">
+            <div class="score-range-bar" style="background:#ef4444"></div>
+            <span class="range-num">0 – 39</span>
+            <span class="range-label">🔧 Perlu Banyak Perbaikan</span>
+            <span class="range-desc">Major revision</span>
+          </div>
+        </div>
       </div>
 
-      <div class="feedback-grid">
-        <div class="feedback-card card-strengths">
-          <div class="feedback-card-header">
-            <div class="feedback-card-icon">✅</div>
-            <h3>Kelebihan</h3>
-          </div>
-          <ul id="strengthsList"></ul>
+      <!-- Tabs -->
+      <div class="card">
+        <div class="tabs-header">
+          <button class="tab-btn tab-strengths active" data-tab="strengths">✅ Kelebihan</button>
+          <button class="tab-btn tab-weaknesses" data-tab="weaknesses">⚠️ Kekurangan</button>
+          <button class="tab-btn tab-tips" data-tab="tips">💡 Tips</button>
+          <button class="tab-btn tab-roles" data-tab="roles">🎯 Job Role</button>
         </div>
-        <div class="feedback-card card-weaknesses">
-          <div class="feedback-card-header">
-            <div class="feedback-card-icon">⚠️</div>
-            <h3>Kekurangan</h3>
-          </div>
-          <ul id="weaknessesList"></ul>
+
+        <div class="tab-panel tab-panel-strengths active" id="tab-strengths">
+          <ul class="feedback-list" id="strengthsList"></ul>
         </div>
-        <div class="feedback-card card-tips">
-          <div class="feedback-card-header">
-            <div class="feedback-card-icon">💡</div>
-            <h3>Tips Perbaikan</h3>
-          </div>
-          <ul id="tipsList"></ul>
+        <div class="tab-panel tab-panel-weaknesses" id="tab-weaknesses">
+          <ul class="feedback-list" id="weaknessesList"></ul>
         </div>
-        <div class="feedback-card card-roles">
-          <div class="feedback-card-header">
-            <div class="feedback-card-icon">🎯</div>
-            <h3>Rekomendasi Job Role</h3>
-          </div>
-          <ul id="rolesList"></ul>
+        <div class="tab-panel tab-panel-tips" id="tab-tips">
+          <ul class="feedback-list" id="tipsList"></ul>
+        </div>
+        <div class="tab-panel tab-panel-roles" id="tab-roles">
+          <div class="roles-grid" id="rolesList"></div>
         </div>
       </div>
 
-      <!-- WhatsApp CTA -->
+      <!-- WA CTA -->
       <div class="wa-card">
         <div class="wa-content">
           <div class="wa-icon">🚀</div>
           <div>
             <h3>Mau CV kamu dioptimasi oleh profesional?</h3>
-            <p>Tim Halolearn siap bantu kamu memperbaiki dan mengoptimasi CV agar lebih menarik di mata rekruter. Lebih dari 1.000+ kandidat sudah berhasil!</p>
+            <p>Tim Halolearn siap bantu kamu memperbaiki CV agar lebih menarik di mata rekruter. 1.000+ kandidat sudah berhasil!</p>
           </div>
         </div>
         <a href="https://wa.me/6285260421274?text=Halo%20Halolearn%2C%20saya%20ingin%20konsultasi%20optimasi%20CV%20saya" target="_blank" class="btn-wa">
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
           Chat dengan Admin Halolearn
         </a>
       </div>
 
-      <button class="btn btn-outline" id="reviewAnotherBtn" style="margin-top:12px">📄 Review CV Lain</button>
+      <button class="btn btn-outline" id="reviewAnotherBtn">📄 Review CV Lain</button>
+      <div class="powered-by">Powered by Halolearn AI</div>
     </div>
 
-    <!-- Error Section -->
+    <!-- Error -->
     <div class="section" id="errorSection">
       <div class="card">
         <div class="error-box">
@@ -598,11 +751,9 @@
   </main>
 
   <script>
+    // Theme
     const themeBtn = document.getElementById('themeBtn');
-    if (localStorage.getItem('theme') === 'dark') {
-      document.body.classList.add('dark');
-      themeBtn.textContent = '☀️';
-    }
+    if (localStorage.getItem('theme') === 'dark') { document.body.classList.add('dark'); themeBtn.textContent = '☀️'; }
     themeBtn.addEventListener('click', () => {
       document.body.classList.toggle('dark');
       const dark = document.body.classList.contains('dark');
@@ -610,6 +761,7 @@
       themeBtn.textContent = dark ? '☀️' : '🌙';
     });
 
+    // Upload
     const uploadZone = document.getElementById('uploadZone');
     const fileInput = document.getElementById('fileInput');
     const fileInfo = document.getElementById('fileInfo');
@@ -621,13 +773,10 @@
     uploadZone.addEventListener('dragover', e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
     uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
     uploadZone.addEventListener('drop', e => {
-      e.preventDefault();
-      uploadZone.classList.remove('drag-over');
+      e.preventDefault(); uploadZone.classList.remove('drag-over');
       if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
     });
-    fileInput.addEventListener('change', e => {
-      if (e.target.files[0]) handleFile(e.target.files[0]);
-    });
+    fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
     function handleFile(file) {
       if (file.type !== 'application/pdf') { showError('Hanya file PDF yang didukung.'); return; }
@@ -638,35 +787,31 @@
       payBtn.disabled = false;
     }
 
+    // Pay
     payBtn.addEventListener('click', async () => {
       if (!selectedFile) return;
-      setProcessing('Mengupload CV...', 'Menyiapkan pembayaran, mohon tunggu...');
-      showSection('processingSection');
-      setStep(2);
-
+      setProcessing('Mengupload CV...', 'Menyiapkan pembayaran...');
+      showSection('processingSection'); setStep(2);
       const formData = new FormData();
       formData.append('cv', selectedFile);
-
       try {
         const res = await fetch('/api/prepare', { method: 'POST', body: formData });
         const data = await res.json();
         if (!res.ok) { showError(data.error || 'Gagal menyiapkan pembayaran.'); return; }
         window.location.href = data.invoiceUrl;
-      } catch {
-        showError('Koneksi bermasalah. Periksa internet kamu.');
-      }
+      } catch { showError('Koneksi bermasalah. Periksa internet kamu.'); }
     });
 
+    // Return from payment
     const params = new URLSearchParams(window.location.search);
     const paidId = params.get('paid');
-
     if (paidId === 'failed') {
       window.history.replaceState({}, '', window.location.pathname);
       showError('Pembayaran dibatalkan atau gagal. Silakan coba lagi.');
     } else if (paidId) {
       window.history.replaceState({}, '', window.location.pathname);
       setStep(3);
-      setProcessing('Menganalisis CV kamu...', 'Claude AI sedang mereview CV kamu, ini mungkin membutuhkan beberapa detik...');
+      setProcessing('Menganalisis CV kamu...', 'Halolearn AI sedang mereview CV kamu...');
       showSection('processingSection');
       runAnalysis(paidId);
     }
@@ -682,14 +827,12 @@
         if (!res.ok) { showError(data.error || 'Analisis gagal. Silakan coba lagi.'); return; }
         renderResults(data.analysis);
         showSection('resultsSection');
-      } catch {
-        showError('Koneksi bermasalah. Periksa internet kamu.');
-      }
+      } catch { showError('Koneksi bermasalah. Periksa internet kamu.'); }
     }
 
     function renderResults(analysis) {
       const score = analysis.score;
-      const circumference = 2 * Math.PI * 68;
+      const circumference = 2 * Math.PI * 62;
       document.getElementById('scoreCircle').style.strokeDashoffset = circumference - (score / 100) * circumference;
 
       let n = 0;
@@ -703,18 +846,60 @@
       if (score >= 80) badge.textContent = '🌟 Sangat Baik';
       else if (score >= 60) badge.textContent = '👍 Baik';
       else if (score >= 40) badge.textContent = '📝 Cukup';
-      else badge.textContent = '🔧 Perlu Perbaikan';
+      else badge.textContent = '🔧 Perlu Banyak Perbaikan';
 
-      populateList('strengthsList', analysis.strengths);
-      populateList('weaknessesList', analysis.weaknesses);
-      populateList('tipsList', analysis.improvement_tips);
-      populateList('rolesList', analysis.job_roles);
+      // Highlight current range
+      const rangeEl = score >= 80 ? 'range-80' : score >= 60 ? 'range-60' : score >= 40 ? 'range-40' : 'range-0';
+      document.getElementById(rangeEl).classList.add('highlight');
+
+      // Populate tabs
+      populateFeedbackList('strengthsList', analysis.strengths);
+      populateFeedbackList('weaknessesList', analysis.weaknesses);
+      populateFeedbackList('tipsList', analysis.improvement_tips);
+      populateRoles('rolesList', analysis.job_roles);
     }
 
-    function populateList(id, items) {
-      document.getElementById(id).innerHTML = items.map(i => `<li>${i}</li>`).join('');
+    function highlightNumbers(text) {
+      // Wrap numbers/percentages/durations in styled span
+      return text.replace(/(\d+[\+\%]?\s*(?:bulan|tahun|hari|jam|kandidat|klien|perusahaan|kali|%|persen|x)?)/gi, '<span class="num-badge">$1</span>');
     }
 
+    function populateFeedbackList(id, items) {
+      const el = document.getElementById(id);
+      el.innerHTML = items.map(item => `
+        <li class="feedback-item">
+          <div class="feedback-dot"></div>
+          <div class="feedback-item-text">${highlightNumbers(item)}</div>
+        </li>
+      `).join('');
+    }
+
+    function populateRoles(id, items) {
+      const el = document.getElementById(id);
+      el.innerHTML = items.map(role => `
+        <div class="role-chip">🎯 ${role}</div>
+      `).join('');
+    }
+
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Score range toggle
+    const rangeToggle = document.getElementById('rangeToggle');
+    const rangePanel = document.getElementById('rangePanel');
+    rangeToggle.addEventListener('click', () => {
+      rangeToggle.classList.toggle('open');
+      rangePanel.classList.toggle('open');
+    });
+
+    // Helpers
     function showSection(id) {
       document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
@@ -727,14 +912,12 @@
 
     function setStep(active) {
       [1,2,3].forEach(i => {
-        const s = document.getElementById(`step${i}`);
+        const s = document.getElementById('step' + i);
         s.classList.remove('active', 'done');
         if (i < active) s.classList.add('done');
         else if (i === active) s.classList.add('active');
       });
-      [1,2].forEach(i => {
-        document.getElementById(`line${i}`).classList.toggle('done', i < active);
-      });
+      [1,2].forEach(i => document.getElementById('line' + i).classList.toggle('done', i < active));
     }
 
     function showError(msg) {
@@ -743,21 +926,15 @@
     }
 
     document.getElementById('retryBtn').addEventListener('click', () => {
-      selectedFile = null;
-      fileInfo.style.display = 'none';
-      fileInput.value = '';
-      payBtn.disabled = true;
-      setStep(1);
-      showSection('uploadSection');
+      selectedFile = null; fileInfo.style.display = 'none';
+      fileInput.value = ''; payBtn.disabled = true;
+      setStep(1); showSection('uploadSection');
     });
 
     document.getElementById('reviewAnotherBtn').addEventListener('click', () => {
-      selectedFile = null;
-      fileInfo.style.display = 'none';
-      fileInput.value = '';
-      payBtn.disabled = true;
-      setStep(1);
-      showSection('uploadSection');
+      selectedFile = null; fileInfo.style.display = 'none';
+      fileInput.value = ''; payBtn.disabled = true;
+      setStep(1); showSection('uploadSection');
     });
   </script>
 </body>
