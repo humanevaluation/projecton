@@ -11,23 +11,54 @@
       box-sizing: border-box;
     }
 
+    :root {
+      --bg-primary: white;
+      --bg-secondary: #f8f9ff;
+      --text-primary: #333;
+      --text-secondary: #666;
+      --border-color: #667eea;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --bg-body: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+
+    body.dark-mode {
+      --bg-primary: #1e1e2e;
+      --bg-secondary: #2a2a3e;
+      --text-primary: #e0e0e0;
+      --text-secondary: #a0a0a0;
+      --border-color: #667eea;
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+      --bg-body: linear-gradient(135deg, #2a2a3e 0%, #1a1a2e 100%);
+    }
+
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      background: var(--bg-body);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 20px;
+      transition: background 0.3s ease;
     }
 
     .container {
-      background: white;
+      background: var(--bg-primary);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      box-shadow: var(--shadow);
       max-width: 900px;
       width: 100%;
       padding: 40px;
+      position: relative;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 30px;
     }
 
     h1 {
@@ -37,9 +68,26 @@
     }
 
     .subtitle {
-      color: #666;
-      margin-bottom: 30px;
+      color: var(--text-secondary);
+      margin-bottom: 0;
       font-size: 16px;
+    }
+
+    .dark-mode-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .dark-mode-btn:hover {
+      background: var(--bg-secondary);
     }
 
     /* Upload Section */
@@ -52,18 +100,18 @@
     }
 
     .upload-zone {
-      border: 3px dashed #667eea;
+      border: 3px dashed var(--border-color);
       border-radius: 12px;
       padding: 40px;
       text-align: center;
       cursor: pointer;
       transition: all 0.3s ease;
-      background: #f8f9ff;
+      background: var(--bg-secondary);
     }
 
     .upload-zone.drag-over {
       border-color: #764ba2;
-      background: #f0e8ff;
+      background: rgba(102, 126, 234, 0.1);
     }
 
     .upload-zone-icon {
@@ -72,14 +120,15 @@
     }
 
     .upload-zone p {
-      color: #666;
+      color: var(--text-secondary);
       margin-bottom: 10px;
       font-size: 16px;
     }
 
     .upload-zone-small {
-      color: #999;
+      color: var(--text-secondary);
       font-size: 14px;
+      opacity: 0.7;
     }
 
     .file-input {
@@ -125,7 +174,7 @@
       display: inline-block;
       width: 40px;
       height: 40px;
-      border: 4px solid #f0f0f0;
+      border: 4px solid var(--bg-secondary);
       border-top-color: #667eea;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -144,7 +193,7 @@
 
     .loading-content p {
       margin-top: 15px;
-      color: #666;
+      color: var(--text-secondary);
       font-size: 16px;
     }
 
@@ -220,7 +269,7 @@
       padding-left: 20px;
       position: relative;
       line-height: 1.5;
-      color: #333;
+      color: var(--text-primary);
     }
 
     .feedback-card li:before {
@@ -236,12 +285,25 @@
       color: #065f46;
     }
 
+    body.dark-mode .strengths {
+      background: rgba(16, 185, 129, 0.1);
+      color: #5eead4;
+    }
+
     .strengths h3 {
       color: #10b981;
     }
 
+    body.dark-mode .strengths h3 {
+      color: #5eead4;
+    }
+
     .strengths li {
       color: #047857;
+    }
+
+    body.dark-mode .strengths li {
+      color: #5eead4;
     }
 
     .weaknesses {
@@ -250,12 +312,25 @@
       color: #78350f;
     }
 
+    body.dark-mode .weaknesses {
+      background: rgba(245, 158, 11, 0.1);
+      color: #fcd34d;
+    }
+
     .weaknesses h3 {
       color: #f59e0b;
     }
 
+    body.dark-mode .weaknesses h3 {
+      color: #fcd34d;
+    }
+
     .weaknesses li {
       color: #b45309;
+    }
+
+    body.dark-mode .weaknesses li {
+      color: #fcd34d;
     }
 
     .tips {
@@ -264,12 +339,25 @@
       color: #082f49;
     }
 
+    body.dark-mode .tips {
+      background: rgba(14, 165, 233, 0.1);
+      color: #38bdf8;
+    }
+
     .tips h3 {
       color: #0ea5e9;
     }
 
+    body.dark-mode .tips h3 {
+      color: #38bdf8;
+    }
+
     .tips li {
       color: #0369a1;
+    }
+
+    body.dark-mode .tips li {
+      color: #38bdf8;
     }
 
     .roles {
@@ -278,12 +366,25 @@
       color: #3f0f5c;
     }
 
+    body.dark-mode .roles {
+      background: rgba(168, 85, 247, 0.1);
+      color: #d8b4fe;
+    }
+
     .roles h3 {
       color: #a855f7;
     }
 
+    body.dark-mode .roles h3 {
+      color: #d8b4fe;
+    }
+
     .roles li {
       color: #7e22ce;
+    }
+
+    body.dark-mode .roles li {
+      color: #d8b4fe;
     }
 
     /* Error Section */
@@ -296,10 +397,19 @@
       margin-bottom: 20px;
     }
 
+    body.dark-mode .error-alert {
+      background: rgba(239, 68, 68, 0.1);
+      color: #fca5a5;
+    }
+
     .error-alert strong {
       display: block;
       margin-bottom: 5px;
       color: #dc2626;
+    }
+
+    body.dark-mode .error-alert strong {
+      color: #fca5a5;
     }
 
     /* Action Buttons */
@@ -335,15 +445,29 @@
       color: #374151;
     }
 
+    body.dark-mode .btn-secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+    }
+
     .btn-secondary:hover {
       background: #d1d5db;
+    }
+
+    body.dark-mode .btn-secondary:hover {
+      background: #3a3a4e;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>CV Reviewer</h1>
-    <p class="subtitle">Get AI-powered feedback on your CV</p>
+    <div class="header">
+      <div>
+        <h1>CV Reviewer</h1>
+        <p class="subtitle">Get AI-powered feedback on your CV</p>
+      </div>
+      <button class="dark-mode-btn" id="darkModeBtn" title="Toggle dark mode">🌙</button>
+    </div>
 
     <!-- Upload Section -->
     <div class="section active" id="uploadSection">
@@ -413,6 +537,21 @@
   </div>
 
   <script>
+    // Dark mode initialization
+    const darkModeBtn = document.getElementById('darkModeBtn');
+    const isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+      darkModeBtn.textContent = '☀️';
+    }
+
+    darkModeBtn.addEventListener('click', () => {
+      document.body.classList.toggle('dark-mode');
+      const isNowDark = document.body.classList.contains('dark-mode');
+      localStorage.setItem('darkMode', isNowDark);
+      darkModeBtn.textContent = isNowDark ? '☀️' : '🌙';
+    });
+
     // Elements
     const uploadZone = document.getElementById('uploadZone');
     const fileInput = document.getElementById('fileInput');
